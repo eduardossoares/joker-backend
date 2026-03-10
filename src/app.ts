@@ -1,14 +1,16 @@
 import Fastify from "fastify";
-import { usersRoutes } from "./routes/users";
+import v1Routes from "./routes/v1.routes";
 
 const PORT = Number(process.env.PORT || 8080);
 
-export const server = Fastify({
+export const app = Fastify({
 	logger: true,
 });
 
-server.register(usersRoutes, { prefix: "/users" });
+app.register(v1Routes, {
+	prefix: "/api/v1",
+});
 
-server.listen({ port: PORT }, () => {
+app.listen({ port: PORT }, () => {
 	console.log("server is runnig");
 });
