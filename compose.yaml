@@ -1,0 +1,8 @@
+services:
+  database:
+    image: "postgres:16-alpine"
+    environment:
+      POSTGRES_USER: "joker_backend"
+      POSTGRES_PASSWORD: "local_password"
+    ports:
+      - "5432:5432"
