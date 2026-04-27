@@ -1,20 +1,25 @@
 {
-  "name": "bun-backend",
-  "module": "index.ts",
+  "name": "backend",
+  "module": "src/server.ts",
   "type": "module",
   "private": true,
   "scripts": {
     "dev": "bun --watch src/server.ts",
-    "start": "bun src/server.ts"
+    "start": "bun src/server.ts",
+    "test:dev": "bun test --watch && bun run tsc --noEmit",
+    "docker:up": "docker compose -f infra/compose.yaml up -d",
+    "docker:down": "docker compose -f infra/compose.yaml down -v"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "@types/node": "^25.3.5"
+    "@types/node": "^25.3.5",
+    "@types/pg": "^8.20.0"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
-    "fastify": "^5.8.1"
+    "fastify": "^5.8.1",
+    "pg": "^8.20.0"
   }
 }
