@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { buildApp } from "../../src/app";
+import { buildApp } from "src/app";
 
 describe("GET /api/v1/status", () => {
 	test("should return server status", async () => {
