@@ -2,11 +2,11 @@ import { Client, type QueryConfig } from "pg";
 
 export class pgDatabase {
 	client = new Client({
-		host: process.env?.POSTGRES_HOST,
-		port: Number(process.env?.POSTGRES_PORT),
-		database: process.env?.POSTGRES_DB,
-		user: process.env?.POSTGRES_USER,
-		password: process.env?.POSTGRES_PASSWORD,
+		host: process.env.POSTGRES_HOST,
+		port: Number(process.env.POSTGRES_PORT),
+		database: process.env.POSTGRES_DB,
+		user: process.env.POSTGRES_USER,
+		password: process.env.POSTGRES_PASSWORD,
 	});
 
 	async query(queryObject: QueryConfig | string) {
