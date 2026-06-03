@@ -1,5 +1,6 @@
 {
-  "name": "backend",
+  "name": "prato-feito-backend",
+  "description": "API do PratoFeito, responsável por autenticação, publicações, comentários, reputação, votos e curadoria comunitária de conteúdos gastronômicos.",
   "module": "src/server.ts",
   "type": "module",
   "private": true,
