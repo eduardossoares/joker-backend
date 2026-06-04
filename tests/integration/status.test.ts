@@ -1,20 +1,40 @@
 import { describe, expect, test } from "bun:test";
+import { pgDatabase } from "infra/db";
+import type { QueryResult } from "pg";
 import { buildApp } from "src/app";
 
 describe("GET /api/v1/status", () => {
   test("should return server status", async () => {
     const testApp = buildApp();
+    const testPgDatabase = new pgDatabase();
 
-    const res = await testApp.inject({
+    const response = await testApp.inject({
       method: "GET",
       url: "/api/v1/status",
     });
 
-    expect(res.statusCode).toBe(200);
+    const rawResult = await testPgDatabase.query(`
+      SHOW server_version;
+      SHOW max_connections;
+      SELECT count(*) AS used_connections FROM pg_stat_activity;
+    `);
 
-    expect(JSON.parse(res.body)).toEqual({
-      status: "ok",
-      message: "server is running!",
+    const results = rawResult as unknown as QueryResult[];
+
+    const parsedBody = JSON.parse(response.body);
+    const parsedUpdatedAt = new Date(parsedBody.updated_at).toISOString();
+
+    expect(response.statusCode).toBe(200);
+
+    expect(parsedBody).toEqual({
+      updated_at: parsedUpdatedAt,
+      dependencies: {
+        database: {
+          version: results[0]?.rows[0].server_version,
+          max_connections: results[1]?.rows[0].max_connections,
+          used_connections: results[2]?.rows[0].used_connections,
+        },
+      },
     });
 
     await testApp.close();
