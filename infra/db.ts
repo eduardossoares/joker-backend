@@ -13,7 +13,6 @@ export class pgDatabase {
 
   async query(queryObject: QueryConfig | string) {
     await this.client.connect();
-
     try {
       const result = await this.client.query(queryObject);
       return result;

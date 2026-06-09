@@ -16,7 +16,7 @@ describe("GET /api/v1/status", () => {
     const rawResult = await testPgDatabase.query(`
       SHOW server_version;
       SHOW max_connections;
-      SELECT count(*) AS open_connections FROM pg_stat_activity;
+      SELECT count(*) AS open_connections FROM pg_stat_activity WHERE application_name = 'prato-feito-backend';
     `);
 
     const results = rawResult as unknown as QueryResult[];
