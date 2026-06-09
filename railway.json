@@ -6,6 +6,7 @@
     "buildEnvironment": "V3"
   },
   "deploy": {
+    "startCommand": "bun dist/server.js",
     "runtime": "V2",
     "numReplicas": 1,
     "preDeployCommand": ["bun start:prod"],
