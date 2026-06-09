@@ -5,6 +5,10 @@ const HOST = process.env.HOST || "0.0.0.0";
 
 const app = buildApp();
 
-app.listen({ port: PORT, host: HOST }, () => {
-  console.log("server is running on port:", PORT);
-});
+try {
+  app.listen({ port: PORT, host: HOST }, () => {
+    console.log(`Server is running on ${HOST}:${PORT}`);
+  });
+} catch (error) {
+  console.error(error);
+}
