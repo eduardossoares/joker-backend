@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "bun --watch src/server.ts",
-    "run:build": "bun install --frozen-lockfile && bun build --target=bun --ourdir=dist ./src/server.ts",
+    "ci": "bun install --frozen-lockfile && bun run tsc --noEmit && bun build --target=bun --outdir=dist src/server.ts",
     "start:prod": "bun dist/server.js",
     "start:dev": "bun src/server.ts",
     "test:dev": "bun --env-file=.env.development test --watch && bun run tsc --noEmit",
