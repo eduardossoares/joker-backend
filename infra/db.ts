@@ -7,6 +7,7 @@ export class pgDatabase {
     database: process.env.POSTGRES_DB,
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
+    ssl: process.env.POSTGRES_SSLMODE === "require",
   });
 
   async query(queryObject: QueryConfig | string) {
