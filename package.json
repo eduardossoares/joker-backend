@@ -6,8 +6,9 @@
   "private": true,
   "scripts": {
     "dev": "bun --watch src/server.ts",
-    "build:run": "bun build --target=bun --outdir=dist ./src/server.ts",
-    "start": "bun src/server.ts",
+    "run:build": "bun install --frozen-lockfile && bun build --target=bun --ourdir=dist ./src/server.ts",
+    "start:prod": "bun dist/server.js",
+    "start:dev": "bun src/server.ts",
     "test:dev": "bun --env-file=.env.development test --watch && bun run tsc --noEmit",
     "docker:up": "docker compose -f infra/compose.yaml up -d",
     "docker:down": "docker compose -f infra/compose.yaml down -v",
