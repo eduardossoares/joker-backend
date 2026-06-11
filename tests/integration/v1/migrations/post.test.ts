@@ -1,13 +1,13 @@
 import { describe, expect, test } from "bun:test";
 import { buildApp } from "src/app";
 
-describe("GET /api/v1/migrations", () => {
-  test("should execute and return dry run of migrations", async () => {
+describe("POST /api/v1/migrations", () => {
+  test("should execute live run of migrations", async () => {
     const testApp = buildApp();
 
     const response = await testApp.inject({
-      method: "GET",
-      url: "/api/v1/migrations",
+      method: "POST",
+      path: "/api/v1/migrations",
     });
 
     expect(response.statusCode).toBe(200);
