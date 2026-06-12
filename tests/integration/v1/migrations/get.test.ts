@@ -1,7 +1,10 @@
-import { describe, expect, test } from "bun:test";
+import { beforeAll, describe, expect, test } from "bun:test";
 import { buildApp } from "src/app";
+import { clearDatabase } from "tests/utils/clear-database";
 
-describe("GET /api/v1/migrations", () => {
+beforeAll(clearDatabase);
+
+describe("GET /api/v1/migrations", async () => {
   test("should execute and return dry run of migrations", async () => {
     const testApp = buildApp();
 
@@ -10,7 +13,10 @@ describe("GET /api/v1/migrations", () => {
       url: "/api/v1/migrations",
     });
 
+    const parsedBody = JSON.parse(response.body);
+
     expect(response.statusCode).toBe(200);
-    expect(JSON.parse(response.body).migrations).toBeArray();
+    expect(parsedBody.migrations).toBeArray();
+    expect(parsedBody.migrations.length).toBeGreaterThan(0);
   });
 });

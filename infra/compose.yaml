@@ -1,7 +1,14 @@
 services:
-  database:
+  development-database:
     image: "postgres:16-alpine"
     env_file:
       - "../.env.development"
     ports:
       - "5432:5432"
+
+  test-database:
+    image: "postgres:16-alpine"
+    env_file:
+      - "../.env.test"
+    ports:
+      - "5433:5432"

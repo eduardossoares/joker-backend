@@ -1,34 +1,26 @@
-import { join } from "node:path";
 import { runner } from "node-pg-migrate";
+import { defaultMigrationOptions } from "./consts/migration-options.const";
 
 export class MigrationsService {
   async dryRun() {
-    const databaseUrl = process.env.DATABASE_URL || "";
-    const migrations = await runner({
+    const pendingMigrations = await runner({
+      ...defaultMigrationOptions,
       dryRun: true,
-      databaseUrl: databaseUrl,
-      dir: join("infra", "migrations"),
-      direction: "up",
-      migrationsTable: "pgmigrations",
     });
 
     return {
-      migrations: migrations,
+      migrations: pendingMigrations,
     };
   }
 
   async liveRun() {
-    const databaseUrl = process.env.DATABASE_URL || "";
-    const migrations = await runner({
+    const executedMigrations = await runner({
+      ...defaultMigrationOptions,
       dryRun: false,
-      databaseUrl: databaseUrl,
-      dir: join("infra", "migrations"),
-      direction: "up",
-      migrationsTable: "pgmigrations",
     });
 
     return {
-      migrations: migrations,
+      migrations: executedMigrations,
     };
   }
 }

@@ -1,16 +1,35 @@
-import { describe, expect, test } from "bun:test";
+import { beforeAll, describe, expect, test } from "bun:test";
 import { buildApp } from "src/app";
+import { clearDatabase } from "tests/utils/clear-database";
+
+beforeAll(clearDatabase);
 
 describe("POST /api/v1/migrations", () => {
   test("should execute live run of migrations", async () => {
     const testApp = buildApp();
 
-    const response = await testApp.inject({
+    const executedMigrationsResponse = await testApp.inject({
       method: "POST",
       path: "/api/v1/migrations",
     });
 
-    expect(response.statusCode).toBe(200);
-    expect(JSON.parse(response.body).migrations).toBeArray();
+    const pendingMigrationsResponse = await testApp.inject({
+      method: "GET",
+      path: "/api/v1/migrations",
+    });
+
+    const parsedExecutedMigrationsBody = JSON.parse(
+      executedMigrationsResponse.body,
+    );
+
+    const parsedpendingMigrationsBody = JSON.parse(
+      pendingMigrationsResponse.body,
+    );
+
+    expect(executedMigrationsResponse.statusCode).toBe(200);
+    expect(parsedExecutedMigrationsBody.migrations).toBeArray();
+    expect(pendingMigrationsResponse.statusCode).toBe(200);
+    expect(parsedpendingMigrationsBody.migrations).toBeArray();
+    expect(parsedpendingMigrationsBody.migrations.length).toBe(0);
   });
 });
